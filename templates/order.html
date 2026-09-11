@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Order — Soul's Treat{% endblock %}
+
+{% block content %}
+
+<section class="order-section">
+  <div class="order-wrap">
+
+    <h1>Place Your Order</h1>
+    <p class="muted">Fresh donuts made the moment you order.</p>
+
+    <form method="POST" action="/order" class="order-form" id="orderForm">
+
+      <label>
+        Your Name
+        <input type="text" name="name" required placeholder="e.g. Wanjiku">
+      </label>
+
+      <label>
+        Phone Number (M-Pesa)
+        <input type="tel" name="phone" required placeholder="07XX XXX XXX">
+      </label>
+
+      <label>
+        Box Size
+        <select name="box" id="boxSelect" required>
+          {% for size, box in boxes.items() %}
+            <option value="{{ size }}"
+              {% if request.args.get('box') == size %}selected{% endif %}>
+              Box of {{ size }} — KSH {{ box.price }}
+            </option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Quantity
+        <input type="number" name="quantity" id="qtyInput" value="1" min="1" max="20">
+      </label>
+
+      <label>
+        Delivery Zone
+        <select name="zone" id="zoneSelect" required>
+          {% for key, z in zones.items() %}
+            <option value="{{ key }}">{{ z.name }} — KSH {{ z.fee }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Delivery Address / Landmark
+        <input type="text" name="address" placeholder="e.g. Near Roysambu Roundabout, Green Apartments">
+      </label>
+
+      <label>
+        Notes (optional)
+        <textarea name="notes" rows="2" placeholder="Extra cinnamon? Gift note?"></textarea>
+      </label>
+
+      <div class="summary" id="summary">
+        <div><span>Subtotal</span><span id="subtotal">KSH 0</span></div>
+        <div><span>Delivery</span><span id="delivery">KSH 0</span></div>
+        <div class="summary-total"><span>Total</span><span id="total">KSH 0</span></div>
+      </div>
+
+      <button type="submit" class="btn btn-lg btn-full">Confirm Order →</button>
+      <p class="fine">You'll be redirected to WhatsApp to confirm payment &amp; delivery.</p>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

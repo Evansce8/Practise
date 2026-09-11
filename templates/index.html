@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge-open">
+      <span class="badge-dot"></span> WE ARE OPEN · TAKING ORDERS
+    </div>
+    <h1>Classic <em>Cinnamon</em><br>Mini Donuts</h1>
+    <p class="hero-sub">
+      Soft, fluffy &amp; perfectly spiced. Freshly fried daily in Roysambu,
+      delivered across Nairobi &amp; its environs.
+    </p>
+    <div class="hero-cta">
+      <a href="/order" class="btn btn-lg">Order Now</a>
+      <a href="#boxes" class="btn btn-ghost btn-lg">See Prices</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE LIST -->
+<section id="boxes" class="boxes">
+  <div class="section-head">
+    <h2>Price List</h2>
+    <p>Choose your box size — every donut is freshly fried and dusted with cinnamon sugar.</p>
+  </div>
+
+  <div class="box-grid">
+    {% for size, box in boxes.items() %}
+    <div class="box-card">
+      <div class="box-img">
+        {% for _ in range(size|int) %}🍩{% endfor %}
+      </div>
+      <div class="box-info">
+        <div class="box-label">BOX OF</div>
+        <div class="box-num">{{ size }}</div>
+        <div class="box-price">@ {{ box.price }} <span>KSH</span></div>
+        <a href="/order?box={{ size }}" class="btn btn-full">Order {{ box.label }}</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- DELIVERY ZONES -->
+<section id="zones" class="zones">
+  <div class="section-head">
+    <h2>Delivery Zones</h2>
+    <p>We deliver fresh donuts across Nairobi &amp; its environs.</p>
+  </div>
+
+  <div class="zone-grid">
+    {% for key, z in zones.items() %}
+    <div class="zone">🏠 {{ z.name }} <span>KSH {{ z.fee }}</span></div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section class="cta-strip">
+  <h2>Craving donuts right now?</h2>
+  <p>Order in 30 seconds. Delivered hot to your door.</p>
+  <a href="/order" class="btn btn-lg">Start My Order →</a>
+</section>
+
+{% endblock %}

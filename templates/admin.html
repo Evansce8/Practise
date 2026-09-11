@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Admin — Soul's Treat{% endblock %}
+
+{% block content %}
+
+<section class="admin-section">
+  <div class="admin-wrap">
+
+    <div class="admin-head">
+      <h1>Orders Dashboard</h1>
+      <a href="/admin/logout" class="link-back">Logout</a>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value">KSH {{ stats.revenue }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">New Orders</div>
+        <div class="stat-value" style="color:#E89AA8;">{{ stats.new_count }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Delivered</div>
+        <div class="stat-value" style="color:#7A8B6F;">{{ stats.delivered_count }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Top Selling</div>
+        <div class="stat-value" style="font-size:20px;">{{ stats.top_box }}</div>
+      </div>
+    </div>
+
+    <!-- Filter tabs + search -->
+    <div class="admin-toolbar">
+
+      <div class="filter-tabs">
+        <a href="/admin?status=all" class="tab {% if status_filter == 'all' %}active{% endif %}">
+          All ({{ stats.count }})
+        </a>
+        <a href="/admin?status=new" class="tab {% if status_filter == 'new' %}active{% endif %}">
+          New ({{ stats.new_count }})
+        </a>
+        <a href="/admin?status=delivered" class="tab {% if status_filter == 'delivered' %}active{% endif %}">
+          Delivered ({{ stats.delivered_count }})
+        </a>
+      </div>
+
+      <form method="GET" action="/admin" class="search-form">
+        <input type="hidden" name="status" value="{{ status_filter }}">
+        <input type="text" name="q" placeholder="Search name, phone, address…" value="{{ search }}">
+        <button type="submit" class="btn">Search</button>
+      </form>
+
+    </div>
+
+    {% if orders %}
+    <div class="table-wrap">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>When</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Box</th>
+            <th>Qty</th>
+            <th>Zone</th>
+            <th>Address</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in orders %}
+          <tr>
+            <td><strong>#{{ o.id }}</strong></td>
+            <td class="muted">{{ o.created_at }}</td>
+            <td>{{ o.name }}</td>
+            <td><a href="tel:{{ o.phone }}">{{ o.phone }}</a></td>
+            <td>{{ o.box }}</td>
+            <td>{{ o.quantity }}</td>
+            <td>{{ o.zone }}</td>
+            <td class="muted">{{ o.address }}</td>
+            <td><strong>KSH {{ o.total }}</strong></td>
+            <td>
+              <span class="status-badge status-{{ o.status }}">
+                {{ o.status }}
+              </span>
+            </td>
+            <td class="actions">
+              {% if o.status != 'delivered' %}
+                <a href="/admin/order/{{ o.id }}/status/delivered" class="btn btn-sm">Deliver</a>
+              {% endif %}
+              {% if o.status != 'cancelled' %}
+                <a href="/admin/order/{{ o.id }}/status/cancelled" class="btn btn-sm btn-ghost">Cancel</a>
+              {% endif %}
+              {% if o.status != 'new' %}
+                <a href="/admin/order/{{ o.id }}/status/new" class="btn btn-sm btn-ghost">Reset</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <div class="empty">
+        <div style="font-size:64px;">🍩</div>
+        <h3>{% if search %}No matching orders{% else %}No orders yet{% endif %}</h3>
+        <p>{% if search %}Try a different search term.{% else %}When customers place orders, they'll show up here.{% endif %}</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

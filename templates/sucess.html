@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+
+<section class="success">
+  <div class="success-card">
+
+    <div class="check">🍩</div>
+
+    <h1>Asante, {{ order.name }}!</h1>
+    <p class="muted">Your order <strong>#{{ order.id }}</strong> has been received.</p>
+
+    <div class="receipt">
+      <div><span>{{ order.box }} × {{ order.quantity }}</span><span>—</span></div>
+      <div><span>Zone</span><span>{{ order.zone }}</span></div>
+      <div><span>Address</span><span>{{ order.address }}</span></div>
+      <div class="receipt-total"><span>Total</span><span>KSH {{ order.total }}</span></div>
+    </div>
+
+    <a href="{{ whatsapp_url }}" target="_blank" class="btn btn-lg btn-full whatsapp">
+      📲 Confirm on WhatsApp
+    </a>
+
+    <p class="fine">
+      Or call us: <strong>0748 405 018</strong> / <strong>0112 926 243</strong>
+    </p>
+
+    <a href="/" class="link-back">← Back to home</a>
+
+  </div>
+</section>
+
+{% endblock %}

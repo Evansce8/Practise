@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+
+<section class="order-section">
+  <div class="order-wrap" style="max-width:420px;">
+
+    <h1>Admin Login</h1>
+    <p class="muted">Enter password to view orders.</p>
+
+    <form method="POST" action="/admin/login" class="order-form">
+      <label>
+        Password
+        <input type="password" name="password" required autofocus>
+      </label>
+      <button type="submit" class="btn btn-lg btn-full">Login</button>
+      {% if error %}
+        <p style="color:#c33;text-align:center;font-weight:600;">{{ error }}</p>
+      {% endif %}
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}s
