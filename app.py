@@ -7,8 +7,8 @@ app.secret_key = "change-me-to-a-random-secret-string-later"
 DB = "orders.db"
 
 # ---------- Business config ----------
-WHATSAPP_NUMBER = "254790801646"   # test number — swap to real one when ready
-ADMIN_PASSWORD = "souls2025"       # 👈 CHANGE THIS before going live!
+WHATSAPP_NUMBER = "254790801646"   
+ADMIN_PASSWORD = "souls2025"       
 
 # ---------- Pricing ----------
 BOXES = {
@@ -36,7 +36,7 @@ def init_db():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
 
-    # Create orders table (with status column)
+
     c.execute("""
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,7 +53,7 @@ def init_db():
         )
     """)
 
-    # Migration: add status column to existing tables that don't have it
+    # Check if 'status' column exists; if not, add it
     c.execute("PRAGMA table_info(orders)")
     columns = [row[1] for row in c.fetchall()]
     if "status" not in columns:
