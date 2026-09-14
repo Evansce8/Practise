@@ -4,7 +4,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "change-me-to-a-random-secret-string-later"
-DB = "orders.db"
+import os
+DB = "/tmp/orders.db" if os.environ.get("VERCEL") else "orders.db"
 
 # ---------- Business config ----------
 WHATSAPP_NUMBER = "254790801646"   
